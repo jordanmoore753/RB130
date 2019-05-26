@@ -66,3 +66,13 @@ def constipated?(param)
   yield if block_given?
   true
 end
+
+Things to remember about blocks:
+1. They are one form of a closure.
+2. Blocks can take arguments but won't raise a number of arguments error if the wrong amount is given.
+3. Blocks return a value (like methods)
+4. Blocks can defer some implementation decisions to method invocation time instead of having all the options decided when the method is defined.
+5. Blocks are good for 'sandwich code' where a variable changes throughout the code, the block goes between the old code and the new code.
+Example: puts str.downcase
+         after = block(str) => str.upcase
+         puts str

@@ -36,3 +36,33 @@ end
 The return value is the original array.
 
 [1, 3, 5] is the object. #each is the method invocation. do...end is the block. |num| is the parameter passed from the object into the block.
+
+-------------------------------------------
+
+Yield
+
+We can 'yield' inside of our methods to a block passed to a method.
+
+Example:
+
+constipated?(param) { puts 'maybe' }
+
+On it's own, the block will not be executed. We need to use the 'yield' keyword to get the block executed within our method.
+
+def constipated?(param)
+  yield
+  true
+end
+
+puts constipated?(param) { puts 'maybe' }
+=> maybe
+=> yes
+
+When we use yield, the method jumps to the block that is written after the method invocation; however, if there's a yield in our code and no block, we will get a LocalJumpError.
+
+We can use the method 'block_given?' to provide our 'yield' with a conditional.
+
+def constipated?(param)
+  yield if block_given?
+  true
+end

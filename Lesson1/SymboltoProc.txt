@@ -1,0 +1,17 @@
+We can shorten our method invocations for transformations on all elements in a collection by using symbols to proc.
+
+Ex: [1, 2, 3, 4, 5].map(&:to_s) 
+
+As far as I know now, you cannot custom define your proc (to_s) to use.
+
+Really, the following is true:
+
+(&:to_s) => { |n| n.to_s }
+
+So, what's happening is that Ruby tries to convert the object in front of (&) into a block. It does this by converting the symbol, (:to_s) into a Proc. It uses the method 'to_proc' in order to do this. An error occurs if no Proc is present.
+
+Then, if it is a Proc object, the implementation looks like:
+
+a_proc = :to_s.to_proc
+(&a_proc)
+=> { |n| n.to_s }

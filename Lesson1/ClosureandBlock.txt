@@ -1,0 +1,5 @@
+A Proc object is a chunk of code that is passed around in the code and executed when 'called' upon. This Proc object is a closure, because it is a chunk of code and is passed around. Blocks are a kind of Proc. 
+
+If you look at the .rb notes for this topic, you'll see that Procs seemingly ignore the variable scoping rules, since local variables initialized in an outer scope can be accessed within a method invocation wherein those variables aren't initialized.
+
+A Proc object keeps track of its surrounding context and drags it wherever the chunk of code is passed to. This is the **binding**, also known as its environment/context. The Proc object keeps track of all this information so it can accurately execute its behavior. This includes local variables, method references, constants, etc. 

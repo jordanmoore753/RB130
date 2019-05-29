@@ -11,3 +11,18 @@ Assertion: this is the verification step to confirm that the data returned by th
 require 'minitest/autorun' loads all of the necessary files for testing from the `minitest` gem.
 
 require_relative 'file_name' for any files that contain data relevant to the tests on the calling file. In our example, 'car' is the file that contains the class data for `Car` in order to instantiate the `car` local variable.
+
+####
+
+SEAT Method
+- Take a seat, young Skywalker.
+1. Set up the necessary objects to be tested (car in our example) - we do this to save time and space in our code.
+2. Execute the code against the object we're testing (all the different methods)
+3. Assert the results of the execution (assert_equals, etc.)
+4. Tear down and clean up any lingering artifacts
+
+####
+
+assert_equal -- what is it testing equality for? value? object? both?
+
+assert_equal actually checks for value equality. We're invoking the method `==` on the objects. If we need strict object equality, use assert_same.

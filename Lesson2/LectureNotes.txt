@@ -1,0 +1,13 @@
+Let's talk about testing jargon:
+
+Test Suite: the entire set of tests that accompanies your program or application. All of your tests!
+
+Test: this describes the situation or context in which tests are run. One example would be checking for an error message if given a wrong password to login with. A test can contain multiple assertions.
+
+Assertion: this is the verification step to confirm that the data returned by the program is what is expected.
+
+###
+
+require 'minitest/autorun' loads all of the necessary files for testing from the `minitest` gem.
+
+require_relative 'file_name' for any files that contain data relevant to the tests on the calling file. In our example, 'car' is the file that contains the class data for `Car` in order to instantiate the `car` local variable.

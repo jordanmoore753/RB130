@@ -1,7 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/reporters'
 
-Minitest::Reporters.use!
 
 class AllTest < MiniTest::Test 
   class NoExperienceError < StandardError
@@ -57,6 +55,20 @@ class AllTest < MiniTest::Test
 
   def test_numeric_class
     setup
-    assert_equal(Numeric, @one.class)
+    #assert_instance_of Numeric, @one
+  end
+
+  def test_numeric_or_subclass
+    setup
+    assert_kind_of Numeric, @one
+  end
+
+  def test_diff_obj
+    #assert_same(@list, @list.process)
+  end
+
+  def test_arr_includes
+    setup
+    #refute_includes(@list, 'xyz')
   end
 end

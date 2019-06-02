@@ -57,45 +57,22 @@ class Luhn
   end
 
   def valid?
-    checksum.digits.reverse.last == 0
+    checksum % 10 == 0
   end
 
   def self.create(int)
-    int = int.digits.reverse
-    curr_loop = nil
-    count = 0
-
-    loop do
-      curr_loop = append_int(int, count)
-      break if curr_loop.reduce(:+).digits.reverse.last == 0 || count > 10
-
-      count += 1
+    int = int * 10
+    if new(int).valid?
+      int
+    else
+      luhn_remainder = new(int).checksum % 10
+      int + (10 - luhn_remainder)
     end
-
-    (int << count).map(&:to_s).join('').to_i
-  end
-
-  def self.append_int(arr, increment)
-    array = arr.clone
-    result, counter = [], -1
-    array << increment
-
-    until counter < (-array.size)
-      if counter.even?
-        array[counter] * 2 >= 10 ? result << (array[counter] * 2) - 9 : result << array[counter] * 2
-      else
-        result << array[counter]
-      end
-
-      counter -= 1
-    end
-
-    result.reverse
   end
 
   private
 
-  attr_reader :num, :addend_result, :checksum_result
+  attr_reader :num
 end
 
-# p me = Luhn.create(873956)
+#p me = Luhn.create(873956)

@@ -1,0 +1,64 @@
+----- Blocks can be implicit
+
+def hello
+  'hello!'
+end
+
+hello('hi') => argumenterror
+hello { puts 'hi' } => 'hello!'
+
+---
+
+See? A method invocation can take an implicit block. Implicit means that it is passed by default into the method invocation and doesn't need to be explicitly included.
+
+The opposite of an implicit block is an explicit block.
+
+How do we get 'hi' to print from the block implicitly passed to `hello`? We need to use the yield keyword.
+
+---
+def hello
+  yield if block_given?
+end
+
+hello { puts 'hi' } => 'hi'
+---
+
+yield is used to invoke a block argument that is passed implicitly into the method invocation. if_block_given? is used to prevent a no block error from occurring.
+
+When you see yield in someone else's code, prepare to get excited. This means that the programmer left room for users to inject additional code into the method without modifying the overall method implementation.
+
+This is one of the main reasons that blocks are so useful. They allow users to take custom actions on the data within a method. For example, someone may want to use the return value of a method invocation for a twitter update, or for logging it to a text file, etc. Blocks allow for more functionality for the user while still keeping the method's purpose and implementation as intended.
+---
+
+def test(&block)
+  puts "What's &block? #{block}"
+end
+
+test { 'hi' } => What's &block? #<Proc:0x00000000032201e8@C:/Users/Anna/Documents/GitHub/RB130/Studying/testing.rb:5>
+
+---
+
+Why would we use an explicit block? 
+
+---
+
+1. method invocation on line 10
+2. checks if block is given, invokes argument passed as block
+3. number + 1 (6) gets sent as argument to the block
+4. invoke  puts on num (6) , prints 6 on screen
+5. back in the increment method invocation
+6. return value is number + 1 (6)
+
+--- 
+
+Blocks do not need to be passed the correct number of arguments. It won't even raise an error. This is much different than method definitions, where the exact number of arguments must be passed or it just won't work when invoked. Any parameters that do not receive an argument get passed as nil. Any arguments that are not used in the block will simply be ignored. For example, if we've got a block that takes two parameters and we only pass it one, the one argument will be worked with just fine in the block. No errors will be raised.
+
+--- Why use blocks at all?
+
+Blocks allow greater flexibility for user implementation. For example, if we're 90% sure of how a method will be invoked, that's still 10% of uncertainty. It's good to allow the user a way that doesn't corrupt the method's implementation but still allows them to personalize the method's invocation to their liking. Blocks are a good way for users to refine their method invocation at method invocation time. 
+
+Take the select method. It's power lies in its flexibility with what attributes it can select for. It can select for anything. If it automatically searched for only odds, that would make the select too specific and far less powerful in its utility. 
+
+Second, methods that perform 'sandwich code', that is, before and after operations, are greatly supported by blocks.
+
+The block is the code that runs in between the before and after code and changes the before into the after. Having a block do this provides unlimited flexibility in what one can code.

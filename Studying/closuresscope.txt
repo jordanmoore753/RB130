@@ -1,0 +1,35 @@
+Closures are chunks of code that are saved (and can be unnamed) and executed at a later time.
+
+It's sort of like a method that can be passed around and executed.
+
+A closure binds all of the variables, methods, objects, around itself and builds an 'enclosure' around them. This is done so that the closure can reference the appropriate values and objects.
+
+Closures are used in 3 ways in Ruby:
+1. Instantiating an object from 'Proc' class
+2. Using lambda
+3. Using blocks
+
+We're mostly using blocks in this course.
+
+----- Blocks and Examples
+
+Blocks may look like this:
+
+do |num|
+  puts num
+end
+
+Obviously, this do..end block needs a calling object, say [1,2,3], and a method invocation, `map`. 
+
+Some methods care about the return value of the block, like select and map. Others, like each and times, don't give a hoot about their return values and simply return the calling object. The great thing about Ruby is that we can modify the methods we know in order to get new return values if we want.
+
+Blocks are just another argument passed into a method at method invocation time.
+
+Example:
+
+def some_method(arr) { |num| p num * 2 }  
+  yield(arr)
+end
+
+----- Scope
+

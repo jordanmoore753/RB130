@@ -1,0 +1,6 @@
+SEAT
+
+1. Set up the context, classes, methods, variables for testing
+2. Execute the code against the OBJECT being tested.
+3. Assert the results of the execution.
+4. Tear down and clean up artifacts.

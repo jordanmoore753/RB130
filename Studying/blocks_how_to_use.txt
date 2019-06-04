@@ -61,4 +61,32 @@ Take the select method. It's power lies in its flexibility with what attributes 
 
 Second, methods that perform 'sandwich code', that is, before and after operations, are greatly supported by blocks.
 
-The block is the code that runs in between the before and after code and changes the before into the after. Having a block do this provides unlimited flexibility in what one can code.
+The block is the code that runs in between the before and after code and changes the before into the after. Having a block do this provides unlimited flexibility in what one can code. Let's look at an example of sandwich code.
+
+`
+def mutate_string(str)
+  puts str
+  yield(str) if block_given?
+  puts str
+end
+
+mutate_string('ohbaby') { |word| word.upcase! }
+=> ohobaby OHBABY
+`
+Since we can pass our argument into the implicit block for our method, we can mutate this string in any way we like. If we didn't have blocks, we wouldn't be able to defer user choice to implementation time. We would need to make separate methods for each of the options available for mutating strings. Like this:
+`
+def string_upcase
+
+end
+
+def string_downcase
+
+end
+
+def string_capitalize
+
+end
+`
+See? Now, with blocks, we can yield to the implicit block, letting the user decide which mutating operation they would like to perform. This implements the DRY principle and also doesn't allow them to destroy the method in anyway, so it makes sense for data protection (encapsulation) to allow this usage.  
+
+This further reinforces why #select and #map are such great methods. We can get any return value we want, based on what we write in the implicit block for their method invocations. That is limitlessly powerful! We can select for odds, or map and return an array where everything is 5x the original number. We don't need separate methods for all of this. We can create our methods with implicit blocks in mind so we can DRY and allow greater flexibility with what users can use our methods for. Imagine we had 40 different selects, each for a different property to select for. Is that easier than what we have now? NO! 

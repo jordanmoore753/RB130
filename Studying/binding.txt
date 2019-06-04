@@ -1,0 +1,41 @@
+--- Blocks
+
+Binding is when a closure memorizes the context within which it was instantiated. For example, in the following code:
+
+`
+ARRAY = [1, 2, 3]
+
+def abc
+  a = 3
+end
+
+def xyz(collection)
+  collection.map { |x| yield x }
+end
+
+xyz(ARRAY) do
+  # block body
+end
+`
+
+The binding for the #block body includes: ARRAY, abc, and xyz. This is because all of those methods and variables exist when the body is instantiated, so they become part of the closure's context. This also means that the variables, methods, objects must already exist when the closure is instantiated, otherwise, they will not become a part of its context. Look here:
+
+`
+chunky = Proc.new { puts "#{name} is #{age}."}
+
+def age
+  3
+end
+
+name = 'Sam'
+
+def caller(block)
+  block.call
+end
+
+caller(chunky)
+`
+
+We get an undefined local variable for name. Let's change that and see if `age` also throws an error. It all works now! So, it appears that local variables must be initialized prior to the closure, but methods are fine. Procs as local variables must also be initialized prior to the closure that you want to have the context of it.
+
+Remember, the binding is EVERYTHING that a block of code can access that is defined somewhere other than itself. Basically, look to the current scope that the block is instantiated within. It will have access to all of the local variables (if they are initialized before the block), methods, constants, etc. This is a helpful concept because we don't need to redefine every variable to be local to a closure.

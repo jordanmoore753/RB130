@@ -1,0 +1,35 @@
+--- When can you pass a block to a method?
+
+You can pass a block to a method when it is a Proc object that a variable is pointing at. This is much the same process as when we pass local variables into methods. The local variable points at some value and we pass it in to the method to manipulate that data in some way. To make a Proc object, you do a similar thing as initializing a local variable.
+
+`
+chunk_code = Proc.new { puts 'hi' } // or do |num|...end
+`
+
+Additionally, you can pass in a block to a method implicitly, which is just tacking on a block after a method invocation, and then specifying the yield keyword in the method definition.
+
+--------
+
+Symbols, ':to_s' get converted to Proc objects when used in this way:
+
+[1,2,3].map(&:to_s)
+
+:to_s => { |num| num.to_s }
+
+This is important. This shorthand uses the method invocation, to_proc, in order to change the symbol into a proc. If there is no ':', the argument gets treated as it is already a Proc. If there is a ':', making the argument a symbol, it knows to convert the logic of the method invocation into a block.
+
+We can also do this implicitly.
+
+def method
+  yield(2)
+end
+
+method(&:to_s) => { |n| n.to_s } => '2'
+
+This is why:
+
+def method(&block)
+  block.call
+end
+
+works for instantiating a Proc object and attaching it to a variable. The variable is block, and it's value is the Proc object as passed in as the argument to the method invocation.

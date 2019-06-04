@@ -1,0 +1,77 @@
+--- 3 Basic Terms
+
+Test-suite: the entire set of tests that accompany a program or application. ALL OF THE TESTS.
+
+Test: This describes a situation or context in which a test is run. A test have many assertions. An example of a test would be ensuring an error message is raised when the wrong password is input.
+
+Assertion: This is the verification of the expected outcome. For example, if the error was raised, the assertion is true. You can make many assertions in one test.
+
+--- Other terms
+
+require_relative 'file_name.rb' is the file that the tests will be referencing for testing. 
+
+require 'some_gem' is where you write which gems are required for your test suite. You can have multiple.
+
+A '.' means the test was successful, a 'S' means it was skipped, and an 'E' means there was an error, and a 'F' means that the test failed.
+
+--- Assertion vs Expectation syntax
+
+We use assertion style syntax in our testing for this course. This means the:
+
+test_one_output
+  assert_equal(ele.size == 1, array.size)
+end
+
+Assertion basically means that we say that something is going to be something in relation to another thing in our program. I know that that is an incredibly vague answer. 
+
+Expectation syntax reads exactly like human language and is thus a little more confusing to use. It's a DSL (domain specific language). We use assertion style because it's more intuitive.
+
+--- Minitest vs RSpec
+
+Minitest is the default testing library for Ruby. RSpec is a DSL that uses and reads like Natural english. Minitest can do everything that RSpec can but it just reads like other Ruby code. We use Minitest because it is simpler and we are used to writing Ruby. Their functionality is the same, just the syntax differs.
+
+--- 6 common assertions
+
+assert_equal(exp, act) is the most common. It fails if the first parameter does not == the second.
+
+Ex:
+
+test_equals
+  a = 1
+  b = 2
+  assert_equals(a, b) => true
+end
+
+assert(test) is not used often and fails if test is not truthy.
+
+Ex: 
+
+test_exists
+  a = 1
+  assert(a) => true
+end
+
+assert_nil(obj) will fail only if obj is not nil.
+
+Ex:
+
+test_nil
+  b = nil
+  assert_nil(b)
+end
+
+assert_raises(exp) { ... } this will fail if block does not raise an exception.
+
+See assert_tests.rb for more.
+
+--- Refutations
+
+Refutations are not important in this course. Basically, they're negations of assertions. So instead of:
+
+assert_equal
+
+it is 
+
+refute_equal
+
+This is why they're rarely used. It's easier to think in a 'has-a' mindset rather than a doesn't have a mindset, since the rest of our code doesn't work from a negation approach.

@@ -1,0 +1,38 @@
+--- Bundler
+
+Bundler is used to manage the various dependencies in your project. For example, your project may need version 10.4 of reporters, 10.7 of rubocop, and Ruby 2.2.1. Bundler lets you pick and tell your program which versions of gems and ruby you would like the program to run. Heck, Bundler will even install the varying dependencies if you give it the command to.
+
+--- Rake
+
+Rake is used to automate tasks. These tasks are building, testing, packaging, and insstalling programs. It comes by default with modern Ruby installation. Additionally, you can perform Git tasks with Rake, set up and initialize databases, create directories and files, and rebuild certain files/directories based on changes to other files/directories.
+
+The purpose of automating these tasks is to reduce redundancy and repeitition. Additionally, having a system by which you run all tests, create release notes, and make backups, only makes your program safer in comparison to doing everything manually.
+
+--- RVM / Rbenv
+
+RVM is a Ruby version manager. This allows a user to have multiple version of Ruby installed, in addition to different versions of RubyGems installed. RVM lets a user switch between these versions in order to ensure that the right program uses the right version of Ruby. This is important because Ruby is a dynamic language and is changed frequently, meaning that previous versions may lack certain updates. It's important that a programmer have a 'time capsule' of the dependencies of a certain version so that everything in the program doesn't need to be updated every time a new release comes out. It allows for more internally consistent programs.
+
+--- Gems
+
+Gems are packages of code that you can download, install and use in your Ruby programs or from the command line. There are thousands of gems, and we've already used a bunch of them in RB101-130. 
+
+Rubocop, pry, sequel, rails.
+
+Gems allow you greater functionality with your code and provides streamlined ways to create new programs. Since we don't need to create every tool or capabiilty from scratch, this opens up time and effort for us to work on other parts of our programs.
+
+--- Gemfile
+
+A gemfile is a file that contains the ruby version, and all gem versions for a given project. It is used with Bundler to install the dependencies (versions) for your program. 
+
+source 'https://rubygems.org'
+
+ruby '2.4.2'
+gem 'sinatra'
+gem 'rails'
+gem 'rack' '~>10.4.0'
+
+Gemfile uses a DSL to specify the dependencies needed for the project.
+
+You run `bundle install` in the directory that contains the gemfile and this creates the gemfile.lock which is the text document containing all of the dependency version for your project. The bundle install command installs any dependencies that are not already installed in your version of Ruby.
+
+

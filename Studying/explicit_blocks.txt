@@ -1,0 +1,68 @@
+--- Explicit blocks in methods
+
+Here's an example:
+
+def go(&closure)
+  closure.call
+end
+
+moe = Proc.new { puts 'Go to Moes.' }
+
+go(moe)
+
+``
+
+This raises an argument error. The & is a special symbol that converts the block to a proc. It really doesn't stand for a parameter that is to be passed to the method's block; rather, it's just a way to say we will explicitly pass a block to the method. Let's see it in action:
+
+`
+def go(&closure)
+  closure.call
+end
+
+moe = Proc.new { puts 'Go to Moes.' }
+
+go { puts 'Go home'} => Go home
+`
+or
+
+`
+def go(&closure)
+  puts "#{closure}"
+end
+
+moe = Proc.new { puts 'Go to Moes.' }
+
+go { puts 'Go home'} => #<Proc:0x00000000032e2d10@C:/Users/Anna/Documents/GitHub/RB130/Studying/explicit_block_examples.rb:7>
+`
+
+See? The `call` essentially invokes the block that it is invoked upon like it would a method invocation. By string interpolation, puts, we get the Proc object and it's encoded object id.
+
+Let's look at a slightly confusing example.
+
+`
+def test2(block)
+  puts 'hello'
+  block.call 
+  puts 'goodbye'
+end
+
+def test(&block)
+  puts '1'
+  test2(block)
+  puts '2'
+end
+
+test { puts 'abc' } => 
+1
+hello
+abc
+goodbye
+2
+`
+This is a good example to show the idea that blocks can be passed around like variables, methods, etc. The & symbol in the parameter of test converts the block into a simple Proc object so it can be passed around. It assigns the Proc object to the name that comes after the &, so in our case, block. It could be duck, though. 
+
+Next, we pass that Proc object to the test2 method invocation, which gives it access to the { puts 'abc' } block. Once we have a variable, block, that represents the Proc object, we can pass it around as much as we like. This is powerful!
+
+To paint with broad strokes, we use call for explicit blocks and yield for implicit blocks.
+
+We use explicit blocks because it provides additional flexibility to our code. Now we our block of code is pointed to by a variable, so we can pass the block to another method. With implicit blocks, all we can do is yield and check if there is a block there and hope for the best.

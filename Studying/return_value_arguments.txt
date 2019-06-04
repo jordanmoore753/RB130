@@ -1,0 +1,14 @@
+--- Return values
+
+Just like with methods, blocks also have return values. We can see this in the following example:
+
+`
+def some(str)
+  str = yield(str)
+  p str
+end
+
+some('going') { |word| word += '!' }
+=> going!
+`
+The str variable is reassigned to the return value of yield(str) which is 'going!'. This is how we do sandwich code, also. Blocks having return values allows us great flexibility with which we can pass and use data to and inside of our methods. This also means that blocks can be destructive (mutating).

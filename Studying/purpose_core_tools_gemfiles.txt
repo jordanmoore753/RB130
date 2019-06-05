@@ -36,3 +36,24 @@ Gemfile uses a DSL to specify the dependencies needed for the project.
 You run `bundle install` in the directory that contains the gemfile and this creates the gemfile.lock which is the text document containing all of the dependency version for your project. The bundle install command installs any dependencies that are not already installed in your version of Ruby.
 
 
+Gemfile is a written list of all the dependencies and Ruby version for your project. When you run `bundle install` Bundler will install any
+dependencies that aren't installed already, including the Ruby version specified. Gemfile uses a DSL to make writing the dependencies
+intuitive. Gemfile.lock is the file created in the same directory as Gemfile, and is a document containing a list of all the dependencies
+in your project. This updates each time you run bundle install and modify something. Using gemfile and bundler allows you to manage dependencies
+in your project and standardize a project to a certain ruby version which is essential in making a product.
+
+Rbenv and RVM are Ruby version managers and can manage several different versions of Ruby on one machine. You can switch freely between them and install
+specific versions of Gems for each Ruby version and also use them at will. Having a version manager is essential in making a project wherein it is standardized
+to avoid old Ruby conventions and new updates that may require large changes.
+
+Gems are packages of code that a user can download, install, create, and use in their own program or command line. Gems are abundant and freely available
+online. Gems are important because they allow greater functionality while eliminating the repetition of creating the gem yourself. Someone else has
+already gone to the trouble of creating it, so all you need to do is implement it.
+
+Rake is an automation tool that lets you automate common tasks for your Ruby project. These are but not limited to: testing, packaging, installing, initialize databases, manage Git.
+Rake is important and a core tool because it eliminates redundancy and gives you more time to work on the parts of your project that aren't repetitive tasks.
+
+Bundler is arguably the most important gem. It is a dependency manager, much like RVM, but is preferred by most Ruby developers. Bundler allows you
+to define and manage the dependencies on a project-level basis. You define which dependencies a program has and Bunder installs the correct ones. This is
+important because it lets you standardize to a Ruby version and also be on the same page as everyone else on the team. Also, it prevents a huge amount 
+of errors that would be held between people running slightly different ruby versions.

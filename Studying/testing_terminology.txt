@@ -75,3 +75,31 @@ it is
 refute_equal
 
 This is why they're rarely used. It's easier to think in a 'has-a' mindset rather than a doesn't have a mindset, since the rest of our code doesn't work from a negation approach.
+
+--- 6/5
+
+Minitest and RSpec are two testing libraries. Minitest comes with the Ruby installation while RSpec does not. RSpec is a DSL that allows for plain-English
+writing of tests. It's extremely close to standard English and can be difficult for someone only acquainted with Ruby syntax to comprehend. I prefer
+Minitest as it is written in the same style as much of the other Ruby syntax we've covered so far. The functionality of each are essentially the same,
+just with different ways of writing the tests.
+
+--- symbol
+
+Ruby allows shorthand for method invocation. In: arr.map(&:to_i), the method invocation to_i is written as a symbol. This allows to_proc, which is 
+represented by the &, to convert the method into a Proc object, and then into a block. So, really to_i => { |n| n.to_i }. In a method invocation like
+some_method(&block), the block is not a symbol, so it just converts the Proc into a block and
+assigns the block to a local variable by the name specified in the parameter.
+
+--- scope and blocks
+
+A closure keeps track of its surrounding context by binding to
+the local variables, methods, constants, and any other artifacts
+within its variable scope. So, closures instantiated inside 
+a method or loop will not be available in the outer scope. This 
+code gets dragged around with the closure so it can execute
+properly.
+
+Blocks also define their own variable scope. The local variables
+initialized inside of a block will not be available in the outer
+scope. Local variables from the outer scope may be re-assigned
+and their values may be mutated, though.

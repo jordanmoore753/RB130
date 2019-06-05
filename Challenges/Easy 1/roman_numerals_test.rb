@@ -1,6 +1,6 @@
 
 require 'minitest/autorun'
-require_relative 'romannumerals'
+require_relative 'roman_numerals_try_2'
 
 class RomanNumeralsTest < Minitest::Test
   def test_1

@@ -1,114 +1,134 @@
-# p [91, 99].reduce(:*)
+
 =begin 
 
-create a program that can detect palindromic PRODUCTS
-in a given range.
+write a program that can detect palindrome
+products in a given range
 
-default minimum is 1
-no default for max
+every possible combination of two numbers
+between the range limits must be included
 
-a palindromic product is the output of two integers
-multiplied together that reads the same backwards
-and forwards
+10..19
 
-[91, 99].reduce(:*) = 9009 (palindromic)
+10, 11
+10, 12
+10, 13..
 
-functions:
-1. compile list of palindromes (the products) 
-2. put the largest into a variable (largest product)
-3. put the smallest into a variable (smalelst product)
-4. compile a list of the FACTOR PAIRS that result in
-(the pairs of integers that
-multiply together to get the palindrome)
-either the smallest product or largest product
-- there can be more than one
+if the product of the two factors is a palindrome,
+  meaning the same backwards and forwards,
+  it is stored away for later
+  in addition to its factors
 
-if no min range, calculate the factors of the given max
-that will be the largest 
+if no min limit is described, it is 1
 
-1. got the inputs converted to a valid array of two numbers to
-construct a range from.
+looping structure:
 
-I think that when we call largest, we are starting from the 
-high end of range and going down
+(1..9).each do |num|
+  (num..9).each do |second_num|
+    a << [num, second_num]
+  end
+end
 
-When we call smallest we are starting from low end of range aand
-going up until we get a palindrome
+this will compile the entire list of 
+multiples for later reduce
 
-Once we get the palindrome we stop iterating, return the pair
-because we can get the palindrome by multiplying the pair
-together
+methods:
+1. generate
+2. largest
+3. smallest
+
+largest and smallest will both be methods that create 
+structs of the same name
+
+These structs will have access to the value and factor
+instance variables
+
+They will have custom getter methods for accessing 
+both value and factor instance variables
+
+ex. largest.value => 9 (the largest factor)
+ex. largest.factors => [3,3], [1,9]
 
 =end
 
 class Palindromes
-  attr_accessor :factors
+  attr_accessor :range, :multiples, :factors, :value
 
-  def initialize(num2)
-    @range = convert_to_arr(num2)
-    @largest = nil
-    @smallest = nil
+  def initialize(range)
+    @range = populate_range(range)
+    @multiples = populate_multiples
     @factors = []
+    @value = []
   end
 
-  def convert_to_arr(num)
-    num.to_a.map { |sub_arr| sub_arr.reject { |n| n.instance_of?(Symbol) } }.flatten!
-  end
-
-  def generate
-    if range.size < 2
-      factors = compute_factors_one
+  def populate_range(range)
+    range_arr = range.to_a
+    if range_arr.size == 1
+      return (1..range_arr[0][1]).to_a
     else
-      factors = compute_factors_two
+      return (range_arr[1][1]..range_arr[0][1]).to_a
     end
-
-    factors
   end
 
-  def compute_factors_one
-    factors, result = [], []
-    numeral = range.join.to_i
-    self_range = (1...numeral).to_a.reverse
-
-    self_range.each do |num|
-      if numeral % num == 0
-        div = numeral / num
-        result << [num, div]
-        result << [div, num]
+  def populate_multiples
+    result = []
+    range.each do |number|
+      (number..range.last).each do |second_num|
+        result << [number, second_num]
       end
     end
 
-    factors << result
+    result
   end
 
-  def compute_factors_two
-    number_range = (range[1]..range[0]).to_a.reverse
-    results = []
+  def palindrome?(product)
+    product.to_s == product.to_s.reverse
+  end
 
-    number_range.each_with_index do |num, idx|
-      p num, number_range[idx + 1]
-      product = [num, number_range[idx + 1]].reduce(:*)
-      results << [num, number_range[idx + 1]] if palindrome?(product)
-      break if idx == number_range.size - 2
+  def generate
+    multiples.each do |sub_arr| 
+      if palindrome?(sub_arr.reduce(:*))
+        @factors << sub_arr
+        @value << sub_arr.reduce(:*)
+      end
     end
-
-    results
-  end
-
-  def palindrome?(number)
-    number.to_s == number.to_s.reverse
   end
 
   def largest
-
+    Largest.new(factors, value)
   end
 
-  private
-
-  attr_reader :range
+  def smallest
+    Smallest.new(factors, value)
+  end
 end
 
-me = Palindromes.new(max_factor: 99, min_factor: 10)
-p me.generate
+class Largest 
+  def initialize(all_factors, values)
+    @all_factors = all_factors
+    @largest_value = values
+  end
 
-p [17, 16].reduce(:*)
+  def value
+    @largest_value.max
+  end
+
+  def factors
+    @all_factors.select { |sub_arr| sub_arr.reduce(:*) == value }
+  end
+end
+
+class Smallest
+  def initialize(all_factors, values)
+    @all_factors = all_factors
+    @value = values
+  end
+
+  def value
+    @value.min
+  end
+
+  def factors
+    @all_factors.select { |sub_arr| sub_arr.reduce(:*) == value }
+  end
+end
+

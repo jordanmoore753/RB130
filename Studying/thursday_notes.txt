@@ -1,0 +1,111 @@
+--- Testing Terminology
+
+Test suite: all of the tests for a program.
+
+Test: A situation or context in which tests are run. Like this test is run to test whether or not you get an error message after you log in with the wrong password. So, in a certain context, is there an expected behavior?
+
+Assertion: An assumption you make regarding how the test will go / what it will output. This is the expected outcome of the test.
+
+--- Minitest vs RSpec
+
+Minitest and RSpec are both testing libraries for Ruby. Minitest comes default and is the one that we use in LS. RSpec and Minitest have the same functionality but different syntax. RSpec is a DSL that reads exactly like plain English so it can be a little tricky to translate. Minitest is written just like other Ruby code so it's easier for us beginners to work with it.
+
+--- SEAT Approach
+
+1. Setup the context / objects necessary for testing
+2. Execute the code against the context / objects
+3. Assert the outcome(s) of the execution
+4. Tear down any lingering artifacts and clean up code.
+
+--- Assertions
+
+Assertions are assumptions that you make regarding how your code will execute against certain objects. Assertions are also a type of syntax we use to test how our code executes against objects. Most of the time, we use assert_equals, and assert that the two objects are equal value. 
+
+The other syntax that can be used is expectation-style syntax. There is an opposite to assertion style, which is refutation style syntax. Basically, it means that the execute some code and refute the outcome. If the outcome evaluates to false, the test passes. Obviously, this is rarely used as it seems confusing to use in a programming paradigm where we use truthy expressions by default.
+
+--------------------------------------------------------------
+
+--- Closures and Scope
+
+Closures are chunks of code that can be unnamed or named and are stored for later execution. Closures can be passed around like variables. Three types of closures in Ruby are:
+
+1. Blocks
+2. Procs
+3. Lambdas
+
+The scope that a closure is instantiated in matters. The scope matters because a closure binds to the context of the scope it was defined in. By context, I mean local variables, constants, methods, etc. It keeps track of its context so it can reference it in different scopes, like in a method invocation.
+
+--- How Blocks work, and when we want to use them
+
+Blocks are unnamed chunks of code that can be stored and passed for later execution. We've been using blocks since the very beginning in every code snippet we've written. 
+
+For example, the following code uses a `do..end` block:
+
+[1, 3, 5].select do |num|
+  num.odd? && num < 5
+end
+=> [1, 3]
+
+Another example of a block is the following:
+
+['cherry', 'pickle'].map { |word| word.capitalize! }
+
+The {} defines the block and the code within it is our chunk of code.
+
+Blocks work by being passed to a method invocation. A calling object has a method invocation which takes a block, implicitly or explicitly. This block will often take a parameter (or more than one) and this parameter represents an element from the calling object. When this element from the calling object enters the block, it is an argument, and is exposed for either mutation or non-mutation. A block also has a return value for each element passed into the block, and this return value is the final line of the block executed. This return value is sent back to the original method invocation and used for the method invocation's return value if the method invocation returns a new value based on its block.
+
+We program blocks into our own method definitions by using either `yield` or `call`. Call is generally for explicit blocks and yield for implicit blocks.  
+
+We use blocks in our method definitions when we want to allow users the choice of how to use our methods. This gives greater flexibility in one's code and can create immensely powerful methods. 
+
+To illustrate with an example, the `select` method is an insanely powerful method and we can 'select' for any attribute that we like. We can test if something is odd, even, 4 characters long, etc. Anything is possible! This flexibility, all coupled inside of ONE method definition, makes it much easier for the user to implement in their own code. If the #select method were actually 100 different methods, all testing for something different, like odd, even, 4 characters, it would be incredibly inconvenient for the user to memorize and use all of those different methods. Making one general method to serve many needs is efficient and powerful.
+
+Another reason why we use blocks in our code is to perform sandwich code, where we need some before data, and action, and an after. The action between before and after is our block. Sometimes, we can't always be sure what the user will want to use our method for. So, it makes sense to allow them the choice of what block they will use between the before and after. This creates more powerful and simple applications by the use of generalized methods.
+
+--- Using Procs
+
+You can pass in a proc directly to a method like any other variable if it is assigned to a variable. Then, use the method `call` invocation on the variable inside the method and the Proc should execute its block.
+
+We convert blocks to Procs in order to pass them around. Often, we assign a Proc to variable for easier passing.
+
+We can also use (&block) in our method definition, which tells the method invocation to instantiate a Proc object and assign to the variable 'block'. This can be passed to another method from within this method definition and called on with `call` to execute the block of code.
+
+--- When can you pass a block to a method?
+
+You can pass a block to a method at anytime. This is because a method always takes an implicit block, whether we define it or not. It's up to you how to implement the block. Should it be implicit or explicit? You can pass a block to a method in the form of a Proc also, so it can be done with a method that takes (&block) an explicit block that converts to a Proc object. 
+
+--- &:symbol
+
+There is a shorthand for method invocations that don't take arguments. Here's one example:
+
+[1,2,3].map(&:to_s) 
+=> ['1', '2', '3']
+
+This (&:to_s) really converts to:
+
+{ |num| num.to_s }
+
+Ruby does this by invoking the method `symbol_to_proc` on the symbol, :to_s. It recognizes that this symbol is a method invocation, and converts it to a Proc with a block. It's important to recognize that when we place a & in front of something in our code, Ruby will default to converting it into a block. Ruby checks it before converting:
+
+1. If the object is a Proc, it uses the object as it is.
+2. The Proc is changed into a block.
+
+We can use these methods with the yield keyword also. Here, for instance:
+
+def my
+  yield(3)
+end
+
+my(&:to_s) => '3'
+
+Since the method invocation was a method, then a Proc, and then a block, we can yield to it.
+
+--- Purpose of Core Tools
+
+RubyGems are packages of code that you can install, download, create, and use in your Ruby programs or from command line. Gems are important because they increase the power and flexibility of our programs and reduce the amount of work we need to do to implement the same functions. Since people have already made the functionalities we are seeking for our program, we can simply download their gem and use it in our own way. This increases the amount of time we can work on other aspects of our program/application.
+
+Bundler is a dependency manager for Ruby. Additionally, it can install the dependencies you need for a certain program. You define the version of gems and Ruby that you require for your program, then you install the bundle which installs all of the correct version dependencies. All of your dependency information is written in a DSL inside of a Gemfile. This creates a Gemfile.lock when used with bundle install. The Gemfile.lock contains all of the information about the dependencies in your program. It updates if you update the original Gemfile. Bundler is very important because it allows you and your team to standardize on one Ruby version and one version of a gem. This makes debugging problems much simpler, since errors due to different version are ruled out. Also, this makes coding the program easier since everyone has the same tools available to them.
+
+RVM and RBenv are Ruby version managers. These gems allow you to install and change between different Ruby versions. You can also install different versions of Gems for each Ruby version. This is immensely important because it makes switching between Ruby versions as simple as one command on the command line. Developers will always need to work with different version on different programs, so having a way to standardize and switch between versions easily is essential.
+
+Rake is an automation tool gem. Rake automates tasks like testing, compiling databases, updating version history, building packages, and installing programs. Rake is important because any time we can reduce complexity and repetition, we increase the efficiency and power of our program and our time spent programming the program. Having set methods for testing, for example, makes the testing more consistent and less prone to error, since it has a system. This applies to all automation tasks that you define with Rake. Additionally, who wants to do all of these tasks manually? It's a waste of time if we have the capability of not doing them manually. 

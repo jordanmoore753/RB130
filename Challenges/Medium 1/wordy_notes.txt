@@ -1,0 +1,12 @@
+This is a definite REGEX problem. One idea is to remove all elements from the string
+that do not match either a numeric character or a certain word (minus, plus, multiplied, divided).
+
+Then, all that's left are the numbers and the operations. Using regex again, we can iterate
+through the array and use gsub! to mutate the current element to match the operation. This would
+probably be best left to an operation with a case statement.
+
+Maybe having an iteration from left to right, and each time there's an element that matches
+an operation, take the elements from before and after that operation and perform the
+correct reduce operation. Then, store that number in an array. Continue iterating, the next
+operation determines the reduce function. The next number gets added to the array and
+the reduce is performed. Once the iteration is done, you return the array and flatten it.

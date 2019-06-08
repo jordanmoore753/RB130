@@ -1,0 +1,7 @@
+--- The difference between /[cat]/ and /cat/
+
+The first example will match any of the characters inside of the square brackets. The second example will look for the EXACT string of characters and only match that. If you're looking for a word or several different words, don't use the square brackets. 
+
+--- Concatenation
+
+This is what the act of chaining characters together to form a string to match is called. For example, /cat/ uses concatenation (lol) to look for any matches for a 'c', followed by an 'a', and a 't' following that 'a'.

@@ -1,0 +1,30 @@
+--- Closures and Scope
+
+Closures are unnamed chunks of code that can be saved for later execution. It's easy to think of closures like methods that can be passed around. Closures come in three forms in Ruby: block, Proc, Lambda. The most frequently one we've used is a block, like a {} or do..end. Procs we've used a little bit, and are storage units that convert to a block when called. 
+
+The scope that a closure is defined or instantiated in is very important, as a closure creates a binding between itself and all of the artifacts in its surrounding context. All of the local variables, constants, methods, the closure has references to their data and uses those references when it is passed out of its current scope. This makes closures immensely powerful, as we can move across scopes and use variables, constants, and methods that aren't defined there. Knowing how a closure uses its variable scope is key to understanding how and where to use blocks.
+
+--- When we use blocks
+
+We use blocks when we want to delay decision making to the user at method invocation time. Sometimes, the user will want to do something different from what we think our method will be primarily used for, so it's best to leave that part open-ended so long as it doesn't conflict with the singular purpose of the function. For example, the #select method has one purpose: return elements from a collection that evaluate to true in its block. Now, a user has unlimited flexibility in how to use that singular purpose with the use of a block that is passed into the #select method invocation. She can select for odds, evens, or words longer thann 4 characters in length. This provides the user with great power.
+
+This brings us to the second reason we use blocks, which is we use them when we do sandwich code. By sandwich code, I mean that inside of our method, we have some code that goes through some type of change and has a 'before' and 'after'. The change that goes between the before and after is left up to the user at invocation time, as this provides more power and flexibility to the user. It's just like with our select method, we can defer implementation and only use method to capture many types of selections; or, we can have 400 different methods, each which selects for a different criteria. In accordance with the DRY principle and simplel logic, we should use the former. Give the user the power to implement their own use of the method at method invocation time.
+
+--- symbols
+
+We can use shorthand for method invocation so long as the method invocation doesn't take any parameters by default. We can chain them as an argument to another
+method invocation. Let's look:
+
+[2, 3, 6].select(&:even?)
+
+How did the code know to return only the even numbers? Well, it's because even was converted to a block! First, we had our symbol: even? Then we have our &, which attempts to convert whatever is after into a block. Since we have a symbol, Symbol#to_proc is invoked on even? to convert it to a Proc. Then, the & converts the Proc into a block for use by the select method and calling object. 
+
+We can also use this when we pass an implicit block parameter to a method. Look:
+
+def my_method
+  yield(3) <= this is the value that will be sent to the block
+end
+
+my_method(&:to_s) => '3'
+
+The function is still the same. Symbol is turned into a proc, which then is converted into a block.

@@ -1,0 +1,93 @@
+# Blocks
+
+## Closures and Scope
+
+Closures are unnamed chunks of code that can be stored for later execution. Closures come in the form of blocks, Procs, and lambdas. Closures get passed around like variables and methods and are objects just like everything else in Ruby.
+
+The scope in which a closure is instantiated or assigned is important, as closures bind to their surrounding context. This context includes references to variables, constants, methods, and any other artifacts in the local scope. They do this so they can execute their code in any scope they are passed into.
+
+It's best to think of a closure as a method that you can pass around and execute. The only difference is that a closure doesn't need an explicit name.
+
+## How blocks work, when we want to use them
+
+Blocks work by being passed to the method invocation of a calling object. I'll explain with the following example:
+
+[1, 2, 3].map { |num| num.to_s } 
+=> ['1'..'3']
+
+The block here is the code between the {} brackets. The method invocation that the block is passed to is #map. The calling object of the #map method is [1,2,3]. From the calling object, the #map method invocation sends one element at a time as an argument to the block, wherein #to_s is invoked on the element. This new element is returned to the #map method invocation and is a part of the return value array.
+
+Blocks can also use do..end blocks, as seen in the following:
+
+[1, 2, 3].map do |num|
+  num.to_s
+end 
+
+Blocks can either be implicitly or explicitly passed. When we implicitly pass, we normally use #yield in the body of the method invocation. When we explicitly pass, we normally use the #call method invocation on the variable that has the block assigned to it. The yield and call keywords both execute the block.
+
+In order to explicitly pass a block to a method, we need to use a Proc object. We can do this in two ways. We can either instantiate a Proc object like so:
+
+a = Proc.new { puts 'yeah!' }
+
+Or, we can use an explicit block parameter that will transform the defined block into a Proc object that can be called, like so:
+
+def echo(&block)
+  block.call (this calls the Proc object which has the block)
+end
+
+The & character is Ruby's way of handling the conversion of a block into a Proc object. We also see this in &:to_i, which is another operation with similar consequences.
+
+In the first example, we can simply pass in the variable `a` into a method that takes a variable, and then in the method's block uses the keyword `call` on the object with the same name as used in the parameter.
+
+### Executing implicitly
+
+Passing a block implicitly is very easy. All you need to do is use the `yield` keyword and `if block_given?`. Here's an example:
+
+def echo
+  #some code
+  yield if block_given?
+end
+
+echo { |n| n.even? }
+
+### When do we use blocks?
+
+1. You can use blocks, implicit or explicit, when you want to defer some decision making to implementation time. This means that the user has control over the type of method they would like to use, or the data they would like to mutate or display. Blocks allow the user to do very specific functions with their method invocations. Take the #select method for example. We can select for nearly anything with how powerful and open-ended it is. #select uses blocks to make this possible. #select wouldn't be nearly as powerful if it didn't take blocks, and instead was split into 400 different method definitions that each selected for something different, like odds, evens, or length. Blocks personalize method invocations and make them more flexible and powerful.
+
+2. You can use blocks to perform sandwich code, wherein there's some code you need to do in between some areas of your method invocation. A good example would be if there was a method which mutated a string in some way. There's a before, the string argument prior to mutation, and there's an after, the string argument after mutation. The code in the middle is the block which determines which mutating method invocation should be executed on the string. Again, blocks allow for more flexibility and power, while also keeping the singular goal of a method intact.
+
+## Arguments and return values
+
+Here we see two areas in which blocks are yet again similar to methods. Blocks can take arguments and also have return values. Here's an example of a block taking arguments.
+
+def echo(param)
+  #some code
+  yield(param) if block_given?
+end
+
+echo { |name| puts name }
+
+Additionally, blocks also have return values. This means that they can be mutating and can also be used to initialize and re-assign local variables. Let's see an example:
+
+def echo
+  yield if block_given?
+end
+
+echo { puts 'yeah' }
+=> nil
+
+Since the return value of a `puts` method invocation is always nil, the return value of the `yield` keyword is nil, which is also the last line of our method invocation that is executed, so that's the return value of the whole method invocation of `echo`.
+
+## When can you pass a block to a method
+
+You can ALWAYS PASS a block to a method. A method always takes an implicit block, whether you define one or not. And even if you do define one, if you don't use yield or call (depending on context, of course) then you won't pass the block to the method invocation anyway! A method invocation can always be passed a block. It just depends on if you choose to or not given the purpose of the method invocation and the capability of that method.
+
+## &:symbol
+
+We can use shorthand for executing method invocations that don't take an argument. Here's a short example:
+
+['oh', 'yeah'].map(&:to_i)
+
+Now, I'll admit, I have no idea when this method invocation would be useful. The only important thing to realize here is that there are a few different operations going on within the (&:to_i). to_i is being turned into a block. How is this happening?
+
+When we use the syntax of &:to_i, & character automatically checks if what follows it is a block and will attempt to convert it to one if it isn't. If it is not a Proc, it will check if it can be converted to one. Luckily, a symbol can be converted to a Proc with Symbol#to_proc, which then converts the Proc into a block. Now, the to_i is really the block { |n| n.to_i }.

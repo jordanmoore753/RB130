@@ -115,3 +115,4 @@ class Diamond
   end
 end
 
+puts Diamond.make_diamond('G')

@@ -1,36 +1,32 @@
-# a = 261354
-# b = a.digits.reverse
+class Clock
+  attr_accessor :total_minutes, :hour, :minutes
 
-# c = b[2]
+  def initialize(hour, minutes)
+    hour = 24 if hour.zero?
+    self.total_minutes = (60 * hour) + minutes
+  end
 
-# # b[0], b[2] = b[2], b[0]
-# # p b
+  def self.at(hour = 0, minutes = 0)
+    Clock.new(hour, minutes)
+  end
 
-# def smallest(n)
-#   smallest_number = n 
-#   smallest_index_and_insert_idx = []
+  def -(int)
+    @total_minutes -= int
+    self
+  end
 
-#   digits_arr = n.digits.reverse
-#   tiny_digit = [digits_arr.min]
-  
-#   tiny_digit.each do |number|
-#     digits_arr.each_with_index do |second, idx|
-#       poss_small_num = digits_arr.dup
-#       tiny_index = poss_small_num.index(number)
-#       poss_small_num.insert(idx, poss_small_num[tiny_index])
-#       poss_small_num.delete_at(tiny_index + 1)
-#       p poss_small_num
-#       if poss_small_num.map(&:to_s).join.to_i < smallest_number
-#         smallest_number = poss_small_num.map(&:to_s).join.to_i
-#         smallest_index_and_insert_idx = [idx, tiny_index]
-#       end
-#     end
-#   end
+  def +(int)
+    @total_minutes += int
+    self
+  end
 
-#   [smallest_number, smallest_index_and_insert_idx].flatten
-# end
+  def ==(other_obj)
+    self.to_s == other_obj.to_s
+  end
 
-# p smallest(261235)
-
-str = '(716) 485-6622'
-p str.scan(/[0-9]/).count
+  def to_s
+    hours, minutes = total_minutes.divmod(60)
+    hours = hours % 24 if hours >= 24 
+    "#{format('%02d', hours)}:#{format('%02d', minutes)}"
+  end
+end

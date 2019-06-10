@@ -1,0 +1,35 @@
+--- 
+
+A closure is a chunk of data that can be stored and executed at a later time. In Ruby, we have three different kinds of closures: blocks, Procs, and lambdas. One can think of a closure similarly to a method, as it is able to be passed around your program. What's special about closures is that they create a binding between them and all the artificats in their scope so that they can reference these artifacts in different scopes and contexts. For example, a closure keeps a binding between the local variables, constants, and methods available to it where it is instantiated. 
+
+--- 
+
+We want to use blocks when we want to defer decision making with regards to how a method invocation should be implemented to the user at implementation time. By coding methods in a general way, like the #select method, we give the user more flexibility and power in allowing them to 'select' which traits they want to evaluate within their block. For example, if we had 400 different #select methods, each pointing to a different function, like odds, or evens, etc., it wouldn't be as easy or powerful as using our single #select method now. This is an example of deferring the decision making to implementation time for the user while still keeping the purpose of the method singular.
+
+We also want to use blocks when we have some before and after code, which is called sandwich code. By this, I mean there is some data before an action and also after an action. There is some block that modifies the data in between before and after. The user gets to decide what the block does in between the before and after in the method invocation. One example of this may be a method that allows the user to mutate a string in some way. So the method is written in a way that expects the user to use a mutating method within the implicit block, so the user implements the method invocation in her own way by using #upcase! within the block. The before string is still downcased, and the after string is now upcased. Allowing this implementation decision making gives the user more flexibility and power when designing their program.
+
+---
+
+Blocks work in two different ways, implicitly and explicitly. A method always has the potential to be passed an implicit block whether it is defined or yielded to. A block is passed to a method invocation which is invoked on a calling object. Let's see an example:
+
+[1, 2, 3].map { |i| i.to_s }
+
+The calling object is the array, the method invocation is #map, and the block is {}. Inside of the block, each element from the array is passed into it and then has to_s invoked on it. That method invocation becomes that element's return value, which for map, is returned to the #map method invocation which becomes part of the method's return value. In order to defer to a block in our custom defined methods, we need to use either yield or call. Yield is normally used for implicit blocks and call for explicit blocks.
+
+We use blocks explicitly by either assigning a &parameter to a method definition or by passing in a Proc object as an argument to a method and then invoking the call method on that object. The & symbol will check to see if the object following it is a Proc object, and if it isn't, it will convert it to a Proc object. Now, the Proc object can be passed around like a local variable, even to other methods. The Proc object can be called by invoking call on it. When you invoke call on the Proc object, it will run the block assigned to it.
+
+---
+
+Blocks have return values just like methods do. This means that we can use blocks for assigning and re-assinging variables, in addition to using mutating methods. It's important to be aware of this because if a block yield is the last line of a method definition, that block will be the last line and therefore, the return value of the method invocation. 
+
+Blocks can take arguments if they are defined to do so, however, unlike normal methods, they will not raise an error if the wrong number of arguments are passed to it. This is called its arity, or the rules that enforce the number of arguments that can be called on a closure.
+
+---
+
+A method can always be passed a block. This is due to the fact that a method always takes a block implicitly, whether or not it is yielded to or defined is up to the user. This means that we can always write our own blocks to be used implicitly by a method. The trick is, however, that a block must be yielded to, in the case for implicitly, or called upon, for the case of explicit blocks in order for the block passing to the method to be meaningful and have any effect.
+
+-- 
+Set up the necessary objects.
+Execute the code against the object we're testing.
+Assert the results of the execution.
+Tear down and clean up any lingering artifacts.

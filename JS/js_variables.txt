@@ -1,0 +1,52 @@
+# Variables in Ruby vs JS
+
+Ruby: var = 'strin'
+JS:   var myName = 'strin'
+
+var is the keyword for declaring a new variable
+myName is the variable's name, use camelCasing.
+
+= is assignment operator
+
+'strin' is the value assigned to variable myName.
+
+- variable names cannot start with numbers
+- variable names are case sensitive
+- variable names cannot be keywords
+
+# let variable declaration
+
+let keyword signals that a variable can be reassigned
+to a different value
+
+you can even initialize a var or let without a value and it will be given value undefined
+
+# const variable
+
+const is short for constant. It cannot be reassigned.
+
+# Increment and Decrement operators
+
+++ = increment operator
+-- = decrement operator
+
+var a = 1
+a++1;
+console.log(a); => 2
+
+# String Interpolation
+
+const myPet = armadillo;
+console.log(`I own a pet ${myPet}`)
+
+backticks `` signify that there is going to be some string interpolation with variables
+
+$ instead of # like in Ruby, followed by {}.
+
+# typeof operator
+
+If you need to check the type of data you're working with
+in JS, use the typeof operator
+  
+    var myVar = 'strrr'
+ex: typeof myVar => String

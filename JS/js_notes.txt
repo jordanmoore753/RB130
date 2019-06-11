@@ -1,0 +1,50 @@
+console.log(input ex: 4, '4') prints something to the console. used to check what's going on. similar to p or puts.
+
+// single line comment
+/*
+multi line comment
+*/
+
+In JS there are 7 data types:
+1. number: 4, 8, 1516, 23.42
+2. string: any grouping of characters surrounding by single or double quotes. prefer single quotes.
+3. boolean: true or false.
+4. null (instead of nil in Ruby): intentional absence of value
+5. undefined: also represents the absence of value but with a different use than null
+6. symbol: unique identifiers used in complex coding.
+7. object: collections of related data.
+
+1-6 are primitive data. objects are more complex.
+
+--- operators
+
+all the operators are the same as in Ruby
++, -, /, %, *
+
+--- string concatenation
+
+strings can be concatenated with + just like in Ruby
+
+'woo' + 'yah' == wooyah!
+
+--- instances of data type
+
+each piece of data is saved to the browser as an instance!!!! of the data type
+
+'woo' => string data type
+2 -> number data type
+
+each instance has properties, much like instances of a class in Ruby have instance variable, attributes, state.
+
+console.log('Hello'.length); => 5
+
+'.' is called the dot operator. 
+
+---- Methods
+
+methods are actions we can perform.
+we call (invoke) these methods by appending an instance with a period (dot operator) the name of the method, and opening and closing parantheses
+
+ex: 'hello world'.methodName()
+
+methods: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/prototype

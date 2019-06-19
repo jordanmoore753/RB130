@@ -1,0 +1,34 @@
+if (expression evalutes to a boolean) {
+  block code
+}
+
+# including an else statement
+
+if (conditional) {
+  block code
+} else {
+  block code
+}
+
+# comparison operators
+
+allthe same as Ruby except
+
+IS EQUAL TO : ===
+IS NOT EQUAL TO: !==
+
+# logical operators
+
+all the same as Ruby
+
+# truthy and falsey
+
+falsy values are
+
+0, empty strings, null, undefined, NaN
+
+# shorthand operator
+
+let utensilType = chosenUtensil || 'pen'
+
+chosenUtensil is the variable with a possibly falsy value. This shorthand operator checks from left to right. If chosenUtensil is falsy, like an empty string, it will default to pen and assign it that value.
